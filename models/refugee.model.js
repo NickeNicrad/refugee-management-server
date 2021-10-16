@@ -21,9 +21,8 @@ const Refugee = db_connection.define('refugees', {
     gender: {
         type: Sequelize.STRING
     },
-    partner: {
-        type: Sequelize.STRING,
-        default: 'Unknown'
+    partner_id: {
+        type: Sequelize.NUMBER,
     },
     dob: {
         type: Sequelize.DATE,
@@ -33,6 +32,10 @@ const Refugee = db_connection.define('refugees', {
         type: Sequelize.BOOLEAN,
         default: false
     },
+    uid: {
+        type: Sequelize.INTEGER,
+        default: 0
+    }
 });
 
 module.exports = Refugee;

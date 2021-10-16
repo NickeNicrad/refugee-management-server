@@ -18,6 +18,10 @@ const User = db_connection.define('users', {
     },
     password: {
         type: Sequelize.NUMBER
+    },
+    active: {
+        type: Sequelize.BOOLEAN,
+        default: false
     }
 });
 

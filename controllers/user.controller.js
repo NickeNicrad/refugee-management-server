@@ -39,6 +39,20 @@ exports.updateUser = async (req, res) =>
         res.status(500).json('something went wrong ' + error);
     }
 }
+exports.updateUserState = async (req, res) =>
+{
+    const {id} = req.params;
+    const {active, email} = req.body;
+    try {
+        if (!email || active === undefined || active === null) throw res.status(400).json('veillez selectionnez un utilisateur!');
+        await User.update({
+            active: !active
+        }, {where: {id, email}});
+        res.status(200).json(active ? 'utilisateur desactivé':'utilisateur activé');
+    } catch (error) {
+        res.status(500).json('something went wrong ' + error);
+    }
+}
 exports.deleteUser = async (req, res) => {
     const {id} = req.params;
     try {

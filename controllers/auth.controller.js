@@ -12,10 +12,15 @@ exports.login = async (req, res) =>
         if (!user || user === null || user === undefined || user === "") throw res.status(401).json({message: 'addresse email incorrect!'});
         if (await bcrypt.compare(password, user.password))
         {
+            if (user.active === false) throw res.status(403).json({message: 'votre compte a été desactivaté!'});
             const token = await jwt.sign({id: user.id, role: user.role}, process.env.JWT_SECRET, {
                 expiresIn: process.env.JWT_EXPIRES_IN
             });
-            res.status(200).json({role: user.role, token, message: `Bienvenu ${user.fname} ${user.lname}`});
+            const cookieOptions = await {
+                expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES * 60 * 60 * 1000),
+                httpOnly: true
+            }
+            res.status(200).json({role: user.role, uid: user.id, token, cookieOptions, message: `Bienvenu ${user.fname} ${user.lname}`});
         } else
         {
             throw res.status(401).json({message: 'mot de passe incorrect!'});
@@ -38,10 +43,16 @@ exports.signup = async (req, res) =>
             lname,
             email,
             role,
-            password: hashpass
+            password: hashpass,
+            active: false
         });
         res.status(200).json('utilisateur créé avec succès');
     } catch (error) {
         res.status(500).json('erreur serveur: ' + error);
     }
 }
+
+const phoneRegx =
+		/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+const emailRegx =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

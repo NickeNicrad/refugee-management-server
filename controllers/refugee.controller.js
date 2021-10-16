@@ -2,9 +2,9 @@ const Refugee = require("../models/refugee.model");
 
 exports.createRefugee = async (req, res) =>
 {
-    const {fname, lname, dest_from, destination, gender, dob, married} = req.body;
+    const {fname, lname, dest_from, destination, gender, dob, married, uid, partner} = req.body;
     try {
-        if (!fname || !lname || !dest_from || !destination || !gender || !dob) throw res.status(400).json('veillez completez tous les champs avant de continuer!');
+        if (!fname || !lname || !dest_from || !destination || !gender || !dob || !uid) throw res.status(400).json('veillez completez tous les champs avant de continuer!');
         const user = await Refugee.findOne({where: {fname, lname}});
         if (user) throw res.status(400).json(`${fname} ${lname} existe déjà dans le système`);
         await Refugee.create({
@@ -14,7 +14,8 @@ exports.createRefugee = async (req, res) =>
             destination,
             gender,
             dob,
-            married
+            married,
+            uid
         });
         res.status(200).json('créé avec succès');
     } catch (error) {
