@@ -2,7 +2,7 @@ const Child = require("../models/child.model");
 
 exports.createChild = async (req, res) =>
 {
-    const {fname, lname, dob, gender, parents} = req.body;
+    const {fname, lname, dob, gender, parents, uid} = req.body;
     try {
         if (!fname || !lname) throw res.status(400).json('veillez completez tous les champs avant de continuer!');
         const user = await Child.findOne({where: {fname, lname}});
@@ -12,7 +12,8 @@ exports.createChild = async (req, res) =>
             lname,
             dob,
             gender,
-            parents
+            parents,
+            uid
         });
         res.status(200).json('créé avec succès');
     } catch (error) {
@@ -31,7 +32,7 @@ exports.getAllChildren = async (req, res) =>
 exports.updateChild = async (req, res) =>
 {
     const {id} = req.params;
-    const {fname, lname, dob, gender, parents} = req.body;
+    const {fname, lname, dob, gender, parents, uid} = req.body;
     try {
         if (!fname || !lname) throw res.status(400).json('veillez completez tous les champs avant de continuer!');
         const user = await Child.findOne({where: {fname, lname}});
@@ -41,7 +42,8 @@ exports.updateChild = async (req, res) =>
             lname,
             dob,
             gender,
-            parents
+            parents,
+            uid
         }, {where: {id}});
         res.status(200).json('mise à jour avec succès!');
     } catch (error) {

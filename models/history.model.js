@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const {db_connection} = require('../db/connector_db');
 
-const Refugee = db_connection.define('refugees', {
+const History = db_connection.define('histories', {
     fname: {
         type: Sequelize.STRING,
         default: 'Unknown',
@@ -38,4 +38,4 @@ const Refugee = db_connection.define('refugees', {
     }
 });
 
-module.exports = Refugee;
+module.exports = History;

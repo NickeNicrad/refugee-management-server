@@ -19,6 +19,10 @@ const Child = db_connection.define('children', {
     },
     parents: {
         type: Sequelize.STRING
+    },
+    uid: {
+        type: Sequelize.INTEGER,
+        default: 0
     }
 });
 

@@ -6,7 +6,7 @@ exports.createCountry = async (req, res) => {
         if (!countryName) throw res.status(400).json('veillez completez tous les champs avant de continuer!');
         const country = await Country.findOne({where: {countryName}});
 
-        if (country) throw res.status(400).json(`${country.countryName} cette ville existe deja dans la base`);
+        if (country) throw res.status(400).json(`${country.countryName}, ce pays existe déjà dans la base de données`);
         await Country.create({
             countryName
         });

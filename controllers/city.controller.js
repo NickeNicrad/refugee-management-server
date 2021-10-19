@@ -6,7 +6,7 @@ exports.createCity = async (req, res) => {
         if (!cityName || !state_id) throw res.status(400).json('veillez completez tous les champs avant de continuer!');
         const city = await City.findOne({where: {cityName, state_id}});
 
-        if (city) throw res.status(400).json(`${city.cityName} cette ville existe deja dans la base`);
+        if (city) throw res.status(400).json(`${city.cityName}, cette ville existe déjà dans la base de données`);
         await City.create({
             cityName,
             state_id
